@@ -12,4 +12,10 @@ export class CategoryListComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  alertExcluir(){
+
+    alert('excluir');
+  }
+
 }
