@@ -4,9 +4,11 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import {HttpClientInMemoryWebApiModule, HttpInMemoryWebApiModule} from 'angular-in-memory-web-api';
+import {HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 
 import {InMemoryDatabase} from './in-memory-database'
+
+
 
 @NgModule({
   declarations: [
@@ -15,7 +17,8 @@ import {InMemoryDatabase} from './in-memory-database'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpInMemoryWebApiModule
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDatabase)//intercepta as requisições http do angular, remover para usar o backend
+
   ],
   providers: [],
   bootstrap: [AppComponent]
