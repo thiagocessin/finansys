@@ -31,32 +31,20 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
+    <tr *ngFor="let c of categories">
       <td>
-        <strong>Lazer</strong><br>
-        <small>Cinema, parque, praia, etc</small>
+        <strong>{{c.name}}</strong><br>
+        <small>{{c.description}}</small>
       </td>
 
       <td>
-        <a [routerLink]="[12, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-        <button (click)="alertExcluir()" class="btn btn-outline-danger btn-sm">Excluir</button>
-
-
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <strong>Lazer</strong><br>
-        <small>Cinema, parque, praia, etc</small>
-      </td>
-
-      <td>
-        <a [routerLink]="[12, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
-        <button (click)="alertExcluir()" class="btn btn-outline-danger btn-sm">Excluir</button>
+        <a [routerLink]="[c.id, 'edit']" class="btn btn-outline-info btn-sm mr-2">Editar</a>
+        <button (click)="deleteCategory(c)" class="btn btn-outline-danger btn-sm">Excluir</button>
 
 
       </td>
     </tr>
+
 
   </tbody>
 </table>
