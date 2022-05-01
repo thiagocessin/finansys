@@ -10,7 +10,7 @@ import {map, catchError, flatMap} from 'rxjs/operators';
 })
 export class EntryService {
 
-  private apiPath: string  = "api/entries";
+  private apiPath: string  = "api/entries";//entries está no in-memory-database
 
   constructor(private http: HttpClient) {
 
@@ -21,7 +21,7 @@ export class EntryService {
     return this.http.get(this.apiPath)
       .pipe(
         catchError(this.handleError),
-        map(this.jsonDataToCategories)
+        map(this.jsonDataToEntries)
       );
 
    }
@@ -83,15 +83,19 @@ export class EntryService {
 
    }
 
-   private jsonDataToCategories(jsonData: any[]): Entry[]{
+   private jsonDataToEntries(jsonData: any[]): Entry[]{
       const entries: Entry[] = [];
-      jsonData.forEach(element => entries.push(element as Entry));
+      jsonData.forEach(element => {
+
+        entries.push(Object.assign(new Entry(),element))
+
+      });
 
       return entries;
    }
 
    private jsonDataToEntry(jsonData:any){
-    return jsonData as Entry;
+    return Object.assign(new Entry(),jsonData)
    }
 
 
