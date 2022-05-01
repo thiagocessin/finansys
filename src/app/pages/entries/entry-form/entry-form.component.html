@@ -31,9 +31,28 @@
 
 
     <div class="card-body">
+      <div class="form-row">
+
+        <div class="form-group col-md-4">
+          <label for="type">Tipo</label>
+
+          <select name="type" id="type" formControlName="type" class="form-control">
+            <option value="expense">Despesa</option>
+            <option value="revenue">Receita</option>
+          </select>
+
+
+          <div class="text-danger" *ngIf="entryForm.get('type').invalid && entryForm.get('type').touched">
+              <div *ngIf="entryForm.get('type').errors.required">Dado Obrigatório</div>
+          </div>
+
+      </div>
+
+      </div>
 
       <div class="form-row">
 
+        <!--name-->
         <div class="form-group col-md-4">
           <label for="name">Nome</label>
           <input type="text" class="form-control" id="name" formControlName="name">
@@ -44,12 +63,16 @@
           </div>
         </div>
 
+        <!--description-->
         <div class="form-group col-md-8">
 
           <label for="description">Descrição</label>
           <input type="text" class="form-control" id="description" formControlName="description">
 
         </div>
+
+
+        <!--name-->
 
       </div>
 
