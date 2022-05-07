@@ -19,12 +19,10 @@ export class EntryListComponent implements OnInit {
   ngOnInit() {
 
     this.entryService.getAll()
-      .subscribe((entries)=>{
-        console.log(entries)
-        this.entries = entries;},
-      (error)=>{
-        alert('Erro o inicializar lista')
-      });
+      .subscribe(
+        entries=> this.entries = entries.sort((a,b)=> b.id - a.id),
+        error=> alert('Erro o inicializar lista')
+      );
 
 
 
