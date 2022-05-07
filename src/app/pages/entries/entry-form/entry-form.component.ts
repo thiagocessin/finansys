@@ -1,3 +1,4 @@
+import { CategoryService } from './../../categories/shared/category.service';
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -7,6 +8,7 @@ import { Entry } from "../shared/entry.model";
 import { EntryService } from '../shared/entry.service';
 
 import toastr from "toastr";
+import { Category } from '../../categories/shared/category.model';
 
 @Component({
   selector: 'app-entry-form',
@@ -21,6 +23,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   serverErrorMessages : string [] = null;
   submittingForm: boolean = false;
   entry: Entry = new Entry();
+  categories: Array<Category>;
 
   imaskConfig = {
     mask:Number,
@@ -48,13 +51,17 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   constructor(private entryService: EntryService,
               private route: ActivatedRoute,
               private router: Router,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private categoryService: CategoryService) { }
 
   ngOnInit() {
     this.setCurrentAction();
     this.buildEntryForm();
     this.locadEntry();
+    this.loadCategories();
   }
+
+
 
   ngAfterContentChecked(): void {
     this.setPageTitle();
@@ -73,6 +80,14 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
 
   }
 
+  get typeOptions(): Array<any>{
+
+    return Object.entries(Entry.types)
+      .map(([value, text])=> {
+        return {text:text, value:value}
+      })
+  }
+
 
 
   //private methods
@@ -81,7 +96,9 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   private updateEntry() {
     const entry: Entry = Object.assign(new Entry(), this.entryForm.value);
     this.entryService.update(entry)
-    .subscribe((entry)=> this.actionsForSuccess(entry),
+    .subscribe((entry)=>{
+       this.actionsForSuccess(entry)
+    },
     (error)=> this.actionsForError(error))
   }
 
@@ -149,7 +166,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       id: [null],
       name: [null, [Validators.required, Validators.minLength(2)]],
       description: [null],
-      type: [null, [Validators.required]],
+      type: ["expense", [Validators.required]],
       amount: [null, [Validators.required]],
       date: [null, [Validators.required]],
       paid: [true, [Validators.required]],
@@ -160,6 +177,13 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   private setCurrentAction() {
     if(this.route.snapshot.url[0].path == 'new') this.currentAction = 'new';
     else this.currentAction = 'edit';
+
+  }
+
+  private loadCategories() {
+    this.categoryService.getAll()
+      .subscribe(categories => this.categories = categories);
+
 
   }
 

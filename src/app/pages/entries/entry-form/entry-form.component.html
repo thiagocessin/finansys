@@ -37,8 +37,7 @@
 
         <!--tipo-->
           <select name="type" id="type" formControlName="type" class="form-control">
-            <option value="expense">Despesa</option>
-            <option value="revenue">Receita</option>
+            <option *ngFor="let o of typeOptions" [value]="o.value">{{o.text}}</option>
           </select>
 
           <div class="text-danger" *ngIf="entryForm.get('type').invalid && entryForm.get('type').touched">
@@ -93,6 +92,47 @@
 
     </div>
 
+
+      <div class="form-row">
+        <!--PAID-->
+        <div class="form-group col-md-2">
+          <label for="paid">Pago</label>
+
+          <div class="btn-group">
+            <label [class.active]="entryForm.get('paid').value == true" class="btn btn-outline-info" (click)="entryForm.get('paid').setValue(true)">Pago</label>
+            <label  [class.active]="entryForm.get('paid').value == false" class="btn btn-outline-info" (click)="entryForm.get('paid').setValue(false)">Pendente</label>
+          </div>
+
+          <div class="text-danger" *ngIf="entryForm.get('paid').invalid && entryForm.get('paid').touched">
+            <div *ngIf="entryForm.get('paid').errors.required">Dado Obrigatório</div>
+          </div>
+        </div>
+
+
+        <!--categoriaID-->
+        <div class="form-group col-md-3">
+          <label for="categoryId">Categoria</label>
+
+          <select name="categoryId" id="categoryId" formControlName="categoryId" class="form-control">
+            <option *ngFor="let c of categories" [value]="c.id">{{c.name}}</option>
+          </select>
+
+          <div class="text-danger" *ngIf="entryForm.get('categoryId').invalid && entryForm.get('categoryId').touched">
+              <div *ngIf="entryForm.get('categoryId').errors.required">Dado Obrigatório</div>
+          </div>
+
+      </div>
+
+        <div class="form-group col-md-7">
+
+          <label for="description">Descrição</label>
+          <input type="text" class="form-control" id="description" formControlName="description">
+
+        </div>
+
+
+      </div>
+
     </div>
 
   </div>
@@ -113,3 +153,5 @@
 
 
 </form>
+
+<pre>{{entryForm.value | json}}</pre>
