@@ -15,7 +15,6 @@ import { InMemoryDatabase } from '../in-memory-database';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    InMemoryDatabase,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDatabase),//intercepta as requisições http do angular, remover para usar o backend
   ],
   exports:[
